@@ -163,11 +163,19 @@
             <span class="btn-text">Hívás</span>
         </a>
 
-        <!-- E-mail -->
-        <a href="fitthaj@gmail.com" class="link-btn">
+        <!-- E-mail (Lenyíló modul indító gombja) -->
+        <div class="link-btn" onclick="toggleEmail()">
             <div class="icon-wrapper"><i class="fas fa-envelope"></i></div>
-            <span class="btn-text">E-mail küldés</span>
-        </a>
+            <span class="btn-text">E-mail cím</span>
+        </div>
+        
+        <!-- Lenyíló e-mail másoló panel -->
+        <div id="email-box" class="email-box">
+            <span class="email-text">fitthaj@gmail.com</span>
+            <button class="copy-btn" onclick="copyEmail()" id="copy-btn">
+                <i class="fas fa-copy"></i> Másolás
+            </button>
+        </div>
 
         <!-- Facebook -->
         <a href="https://www.facebook.com/profile.php?id=100009124605034&locale=hu_HU" target="_blank" class="link-btn">
