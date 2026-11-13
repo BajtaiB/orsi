@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>orsi - Prémium Névjegykártya</title>
+    <title>Kitti - Prémium Névjegykártya</title>
     
     <!-- Ikonkészlet betöltése (FontAwesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Elegáns Google betűtípusok betöltése -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
     
     <style>
         /* Szigorúan csak rózsaszín és fehér paletta */
@@ -32,6 +32,7 @@
             align-items: flex-start;
             min-height: 100vh;
             color: var(--dark-berry);
+            overflow-x: hidden;
         }
 
         /* A fő kártya konténer - letisztult, keret nélküli hatás mobilra */
@@ -47,7 +48,7 @@
             box-sizing: border-box;
         }
 
-        /* Profilkép stílusa - finom árnyékokkal és dupla kerettel */
+        /* Profilkép stílusa */
         .profile-pic {
             width: 140px;
             height: 140px;
@@ -60,7 +61,7 @@
             background-color: var(--blush-pink);
         }
 
-        /* Név - klasszikus, magazin-stílusú tipográfia */
+        /* Név - klasszikus tipográfia */
         .name {
             font-family: 'Playfair Display', serif;
             font-size: 38px;
@@ -98,7 +99,7 @@
             gap: 18px;
         }
 
-        /* Elegáns, pasztell rózsaszín gombok */
+        /* Elegáns, pasztell rózsaszín gombok a főoldalon */
         .link-btn {
             display: flex;
             align-items: center;
@@ -112,6 +113,7 @@
             transition: all 0.4s ease;
             box-shadow: 0 8px 25px rgba(244, 143, 177, 0.25);
             border: 1px solid var(--pure-white);
+            cursor: pointer;
         }
 
         .link-btn:hover {
@@ -120,7 +122,6 @@
             background: linear-gradient(135deg, var(--rose-pink), var(--deep-rose));
         }
 
-        /* Ikonok hófehér kör alakú háttere */
         .icon-wrapper {
             background: var(--pure-white);
             width: 44px;
@@ -141,40 +142,162 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+
+        /* ========================================================= */
+        /* ÚJ OLDAL (TELJES KÉPERNYŐS E-MAIL ABLAK) STÍLUSAI         */
+        /* ========================================================= */
+        
+        .email-overlay-page {
+            display: none; /* Alapból nem látszik */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--pure-white);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            /* Finom, elegáns beúszó animáció */
+            animation: fadeInPage 0.4s ease forwards;
+        }
+
+        .email-overlay-page.show {
+            display: flex;
+        }
+
+        /* A középső elegáns "kártya" az e-mail oldalon */
+        .email-card {
+            background: var(--blush-pink);
+            border: 2px solid var(--powder-pink);
+            border-radius: 35px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 85%;
+            max-width: 350px;
+            box-shadow: 0 20px 50px rgba(244, 143, 177, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .email-card-icon {
+            font-size: 45px;
+            color: var(--deep-rose);
+            margin-bottom: 20px;
+            background: var(--pure-white);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.3);
+        }
+
+        .email-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--dark-berry);
+            margin: 0 0 10px 0;
+        }
+
+        /* A konkrét e-mail cím megjelenítése */
+        .email-address-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--deep-rose);
+            margin: 15px 0 35px 0;
+            letter-spacing: 1px;
+            user-select: all; /* Egy érintéssel kijelölhető */
+            word-break: break-all;
+        }
+
+        /* A nagy másolás gomb */
+        .big-copy-btn {
+            background: linear-gradient(135deg, var(--powder-pink), var(--rose-pink));
+            color: var(--pure-white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(244, 143, 177, 0.3);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .big-copy-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--rose-pink), var(--deep-rose));
+        }
+
+        /* Vissza gomb */
+        .back-btn {
+            background: transparent;
+            color: var(--dark-berry);
+            border: 2px solid var(--powder-pink);
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: var(--powder-pink);
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
+<!-- FŐOLDAL KONTÉNERE -->
 <div class="card-container">
     <!-- PROFILKÉP -->
-    <img src="" alt="" class="profile-pic">
+    <img src="https://via.placeholder.com/300/FCE4EC/880E4F?text=Kitti" alt="Profilkép" class="profile-pic">
 
     <!-- NÉV ÉS TITULUS -->
-    <h1 class="name">Orsi</h1>
-    <p class="title">Trichocenter területi képviselő</p>
+    <h1 class="name">Kitti</h1>
+    <p class="title">Kapcsolat</p>
     <div class="divider"></div>
 
     <!-- GOMBOK ÉS ADATOK -->
     <div class="links-container">
         
         <!-- Telefonszám -->
-        <a href="tel:+36303016293" class="link-btn">
+        <a href="tel:+363011111111" class="link-btn">
             <div class="icon-wrapper"><i class="fas fa-phone"></i></div>
             <span class="btn-text">Hívás</span>
         </a>
 
-        <!-- E-mail (Lenyíló modul indító gombja) -->
-        <div class="link-btn" onclick="toggleEmail()">
+        <!-- E-mail (EZ NYITJA MEG AZ ÚJ OLDALT) -->
+        <div class="link-btn" onclick="openEmailPage()">
             <div class="icon-wrapper"><i class="fas fa-envelope"></i></div>
             <span class="btn-text">E-mail cím</span>
-        </div>
-        
-        <!-- Lenyíló e-mail másoló panel -->
-        <div id="email-box" class="email-box">
-            <span class="email-text">fitthaj@gmail.com</span>
-            <button class="copy-btn" onclick="copyEmail()" id="copy-btn">
-                <i class="fas fa-copy"></i> Másolás
-            </button>
         </div>
 
         <!-- Facebook -->
@@ -185,6 +308,64 @@
 
     </div>
 </div>
+
+<!-- ========================================================= -->
+<!-- ÚJ OLDAL (TELJES KÉPERNYŐS FELUGRÓ ABLAK)                 -->
+<!-- ========================================================= -->
+<div id="email-page" class="email-overlay-page">
+    <div class="email-card">
+        <div class="email-card-icon"><i class="fas fa-envelope-open-text"></i></div>
+        <h2 class="email-card-title">E-mail küldése</h2>
+        
+        <!-- Elegánsan megjelenített e-mail cím -->
+        <div class="email-address-text">fitthaj@gmail.com</div>
+        
+        <!-- Másolás gomb -->
+        <button class="big-copy-btn" onclick="copyEmail()" id="copy-btn-large">
+            <i class="fas fa-copy"></i> Cím másolása
+        </button>
+        
+        <!-- Vissza a főoldalra gomb -->
+        <button class="back-btn" onclick="closeEmailPage()">
+            <i class="fas fa-arrow-left"></i> Vissza
+        </button>
+    </div>
+</div>
+
+<!-- JavaScript a felületek közötti váltáshoz és a másoláshoz -->
+<script>
+    // Új e-mail oldal megnyitása
+    function openEmailPage() {
+        document.getElementById('email-page').classList.add('show');
+    }
+
+    // Visszatérés a főoldalra
+    function closeEmailPage() {
+        document.getElementById('email-page').classList.remove('show');
+    }
+
+    // A cím vágólapra másolása vizuális visszajelzéssel
+    function copyEmail() {
+        const email = "fitthaj@gmail.com";
+        const btn = document.getElementById('copy-btn-large');
+        
+        navigator.clipboard.writeText(email).then(() => {
+            // Megváltoztatjuk a gomb feliratát és színét
+            const originalHTML = '<i class="fas fa-copy"></i> Cím másolása';
+            btn.innerHTML = '<i class="fas fa-check"></i> Sikeresen másolva!';
+            btn.style.background = 'var(--deep-rose)';
+            
+            // Két másodperc múlva visszaáll eredetire
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = 'linear-gradient(135deg, var(--powder-pink), var(--rose-pink))';
+            }, 2000);
+        }).catch(err => {
+            console.error('Sikertelen másolás: ', err);
+            alert("A böngésződ biztonsági beállításai nem engedik az automatikus másolást. Kérlek, tartsd lenyomva az ujjad az e-mail címen a másoláshoz.");
+        });
+    }
+</script>
 
 </body>
 </html>
