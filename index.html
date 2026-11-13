@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitális Névjegykártya</title>
+    
+    <!-- Ikonkészlet betöltése (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Elegáns Google betűtípusok betöltése -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Színpaletta és alapbeállítások */
+        :root {
+            --primary-color: #FBBF24; /* Meleg arany-sárga */
+            --secondary-color: #FEF08A; /* Lágy pasztellsárga */
+            --text-dark: #475569;     /* Sötétszürke a kontrasztért */
+            --text-light: #94A3B8;    /* Világosszürke a titulushoz */
+            --bg-color: #FFFDF3;      /* Nagyon halvány, meleg sárgás-fehér háttér */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* A fő kártya konténer mobilra méretezve */
+        .card-container {
+            width: 100%;
+            max-width: 420px;
+            background: #FFFFFF;
+            min-height: 100vh;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 25px;
+            box-sizing: border-box;
+        }
+
+        /* Profilkép stílusa */
+        .profile-pic {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #FFFFFF;
+            outline: 3px solid var(--primary-color);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+            margin-bottom: 25px;
+        }
+
+        /* Név és titulus */
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin: 0 0 8px 0;
+            color: var(--text-dark);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 45px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Gombok tárolója */
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Gombok stílusa */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 30px; /* Lekerekített, nőies forma */
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Ikonok kör alakú háttere */
+        .icon-wrapper {
+            background: rgba(255, 255, 255, 0.7);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 18px;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
+
+        .btn-text {
+            flex-grow: 1;
+            text-align: left;
+            letter-spacing: 1.5px;
+        }
+        
+        /* Címkék/Piktogramok kiegészítő dizájn eleme */
+        .link-btn.info-only {
+            background: #FFFFFF;
+            border: 2px solid var(--secondary-color);
+            box-shadow: none;
+            cursor: default;
+        }
+        
+        .link-btn.info-only:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .link-btn.info-only .icon-wrapper {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <!-- PROFILKÉP -->
+    <!-- Cseréld ki a 'src' attribútumban lévő linket a saját képed URL-jére -->
+    <img src="https://via.placeholder.com/300/FEF08A/475569?text=Fot%C3%B3+Helye" alt="Profilkép" class="profile-pic">
+
+    <!-- NÉV ÉS TITULUS -->
+    <h1 class="name">Név Helye</h1>
+    <p class="title">Titulus / Foglalkozás</p>
+
+    <!-- GOMBOK ÉS ADATOK -->
+    <div class="links-container">
+        
+        <!-- Telefonszám -->
+        <a href="tel:+36301234567" class="link-btn">
+            <div class="icon-wrapper"><i class="fas fa-phone"></i></div>
+            <span class="btn-text">HÍVÁS</span>
+        </a>
+
+        <!-- E-mail -->
+        <a href="mailto:valami@email.hu" class="link-btn">
+            <div class="icon-wrapper"><i class="fas fa-envelope"></i></div>
+            <span class="btn-text">E-MAIL KÜLDÉS</span>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://facebook.com/profilod" target="_blank" class="link-btn">
+            <div class="icon-wrapper"><i class="fab fa-facebook-f"></i></div>
+            <span class="btn-text">FACEBOOK</span>
+        </a>
+
+        <!-- Születési idő (Kattinthatatlan információs mező) -->
+        <div class="link-btn info-only">
+            <div class="icon-wrapper"><i class="fas fa-birthday-cake"></i></div>
+            <span class="btn-text">2000. 01. 01.</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
