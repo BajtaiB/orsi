@@ -1,287 +1,191 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-} from '@expo/vector-icons';
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitális Névjegykártya</title>
+    
+    <!-- Ikonkészlet betöltése (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Elegáns Google betűtípusok betöltése -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Színpaletta és alapbeállítások */
+        :root {
+            --primary-color: #FBBF24; /* Meleg arany-sárga */
+            --secondary-color: #FEF08A; /* Lágy pasztellsárga */
+            --text-dark: #475569;     /* Sötétszürke a kontrasztért */
+            --text-light: #94A3B8;    /* Világosszürke a titulushoz */
+            --bg-color: #FFFDF3;      /* Nagyon halvány, meleg sárgás-fehér háttér */
+        }
 
-const profile = {
-  name: 'Kovács Anna',
-  title: 'Marketing Menedzser',
-  phone: '+36 30 123 4567',
-  email: 'anna.kovacs@email.com',
-  facebook: 'facebook.com/annakovacs',
-  birthday: '1992. 04. 17.',
-  city: 'Budapest',
-  website: 'annakovacs.hu',
-};
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
 
-const contactItems = [
-  {
-    icon: 'call',
-    type: 'Ionicons',
-    label: 'Telefonszám',
-    value: profile.phone,
-    color: '#2F6BFF',
-  },
-  {
-    icon: 'email-outline',
-    type: 'MaterialCommunityIcons',
-    label: 'E-mail',
-    value: profile.email,
-    color: '#FF8A00',
-  },
-  {
-    icon: 'facebook',
-    type: 'FontAwesome5',
-    label: 'Facebook',
-    value: profile.facebook,
-    color: '#2F6BFF',
-  },
-  {
-    icon: 'cake',
-    type: 'MaterialCommunityIcons',
-    label: 'Születési idő',
-    value: profile.birthday,
-    color: '#FF5B7A',
-  },
-  {
-    icon: 'map-marker',
-    type: 'MaterialCommunityIcons',
-    label: 'Lakhely',
-    value: profile.city,
-    color: '#00B894',
-  },
-  {
-    icon: 'web',
-    type: 'MaterialCommunityIcons',
-    label: 'Weboldal',
-    value: profile.website,
-    color: '#7C6AEE',
-  },
-];
+        /* A fő kártya konténer mobilra méretezve */
+        .card-container {
+            width: 100%;
+            max-width: 420px;
+            background: #FFFFFF;
+            min-height: 100vh;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 25px;
+            box-sizing: border-box;
+        }
 
-function ContactRow({ icon, type, label, value, color }) {
-  const Icon =
-    type === 'Ionicons'
-      ? Ionicons
-      : type === 'FontAwesome5'
-      ? FontAwesome5
-      : MaterialCommunityIcons;
+        /* Profilkép stílusa */
+        .profile-pic {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #FFFFFF;
+            outline: 3px solid var(--primary-color);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+            margin-bottom: 25px;
+        }
 
-  return (
-    <View style={styles.row}>
-      <View style={[styles.iconWrap, { backgroundColor: color + '22' }]}>
-        <Icon name={icon} size={22} color={color} />
-      </View>
+        /* Név és titulus */
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin: 0 0 8px 0;
+            color: var(--text-dark);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
 
-      <View style={styles.textWrap}>
-        <Text style={styles.label}>{label}</Text>
-        <Text style={styles.value}>{value}</Text>
-      </View>
-    </View>
-  );
-}
+        .title {
+            font-size: 13px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 45px;
+            text-align: center;
+            font-weight: 600;
+        }
 
-export default function App() {
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.topGlow} />
+        /* Gombok tárolója */
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-        <View style={styles.headerCard}>
-          <View style={styles.headerTop}>
-            <View style={styles.smallBlueIcon}>
-              <Ionicons name="sparkles" size={18} color="#ffffff" />
-            </View>
-          </View>
+        /* Gombok stílusa */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 30px; /* Lekerekített, nőies forma */
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
 
-          <View style={styles.profileWrap}>
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
-              }}
-              style={styles.avatar}
-            />
-          </View>
+        .link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4);
+        }
 
-          <Text style={styles.name}>{profile.name}</Text>
-          <Text style={styles.title}>{profile.title}</Text>
-        </View>
+        /* Ikonok kör alakú háttere */
+        .icon-wrapper {
+            background: rgba(255, 255, 255, 0.7);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 18px;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
 
-        <View style={styles.infoCard}>
-          {contactItems.map((item, index) => (
-            <ContactRow
-              key={index}
-              icon={item.icon}
-              type={item.type}
-              label={item.label}
-              value={item.value}
-              color={item.color}
-            />
-          ))}
-        </View>
+        .btn-text {
+            flex-grow: 1;
+            text-align: left;
+            letter-spacing: 1.5px;
+        }
+        
+        /* Címkék/Piktogramok kiegészítő dizájn eleme */
+        .link-btn.info-only {
+            background: #FFFFFF;
+            border: 2px solid var(--secondary-color);
+            box-shadow: none;
+            cursor: default;
+        }
+        
+        .link-btn.info-only:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .link-btn.info-only .icon-wrapper {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
 
-        <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="chatbubble-ellipses-outline" size={18} color="#ffffff" />
-          <Text style={styles.actionText}>Üzenet küldése</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+<div class="card-container">
+    <!-- PROFILKÉP -->
+    <!-- Cseréld ki a 'src' attribútumban lévő linket a saját képed URL-jére -->
+    <img src="https://via.placeholder.com/300/FEF08A/475569?text=Fot%C3%B3+Helye" alt="Profilkép" class="profile-pic">
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#f7e9a4',
-  },
-  container: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 18,
-    paddingBottom: 40,
-    backgroundColor: '#f7e9a4',
-  },
-  topGlow: {
-    position: 'absolute',
-    top: -30,
-    right: -40,
-    width: 200,
-    height: 200,
-    backgroundColor: '#ffd76b',
-    borderRadius: 100,
-    opacity: 0.5,
-  },
-  headerCard: {
-    backgroundColor: '#fffaf0',
-    borderRadius: 28,
-    paddingBottom: 24,
-    paddingTop: 14,
-    shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 18,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: '#f0d772',
-    marginTop: 14,
-  },
-  headerTop: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  smallBlueIcon: {
-    width: 34,
-    height: 34,
-    borderRadius: 12,
-    backgroundColor: '#2f6bff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#2f6bff',
-    shadowOpacity: 0.4,
-    shadowOffset: { width: 0, height: 6 },
-    shadowRadius: 10,
-  },
-  profileWrap: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  avatar: {
-    width: 112,
-    height: 112,
-    borderRadius: 56,
-    borderWidth: 4,
-    borderColor: '#facc46',
-    backgroundColor: '#f5d15f',
-  },
-  name: {
-    fontSize: 28,
-    fontWeight: '800',
-    textAlign: 'center',
-    color: '#1e2430',
-    marginBottom: 4,
-  },
-  title: {
-    fontSize: 15,
-    textAlign: 'center',
-    color: '#6d6c65',
-    fontWeight: '600',
-    letterSpacing: 0.4,
-  },
-  infoCard: {
-    backgroundColor: '#fffaf0',
-    borderRadius: 26,
-    marginTop: 20,
-    paddingVertical: 18,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#f0d772',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 12,
-    elevation: 5,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3e8c0',
-  },
-  iconWrap: {
-    width: 46,
-    height: 46,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textWrap: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  label: {
-    fontSize: 12,
-    color: '#8f8a7e',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  value: {
-    fontSize: 15,
-    color: '#1e2430',
-    fontWeight: '700',
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#2f6bff',
-    paddingVertical: 16,
-    borderRadius: 18,
-    marginTop: 20,
-    shadowColor: '#2f6bff',
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  actionText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '800',
-    marginLeft: 10,
-  },
-});
+    <!-- NÉV ÉS TITULUS -->
+    <h1 class="name">Név Helye</h1>
+    <p class="title">Titulus / Foglalkozás</p>
+
+    <!-- GOMBOK ÉS ADATOK -->
+    <div class="links-container">
+        
+        <!-- Telefonszám -->
+        <a href="tel:+36301234567" class="link-btn">
+            <div class="icon-wrapper"><i class="fas fa-phone"></i></div>
+            <span class="btn-text">HÍVÁS</span>
+        </a>
+
+        <!-- E-mail -->
+        <a href="mailto:valami@email.hu" class="link-btn">
+            <div class="icon-wrapper"><i class="fas fa-envelope"></i></div>
+            <span class="btn-text">E-MAIL KÜLDÉS</span>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://facebook.com/profilod" target="_blank" class="link-btn">
+            <div class="icon-wrapper"><i class="fab fa-facebook-f"></i></div>
+            <span class="btn-text">FACEBOOK</span>
+        </a>
+
+        <!-- Születési idő (Kattinthatatlan információs mező) -->
+        <div class="link-btn info-only">
+            <div class="icon-wrapper"><i class="fas fa-birthday-cake"></i></div>
+            <span class="btn-text">2000. 01. 01.</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
